@@ -32,9 +32,11 @@ ActiveRecord::Schema.define(version: 20171002211049) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.string "name"
-    t.string "nickname"
     t.string "image"
     t.string "email"
+    t.string "phone", null: false
+    t.string "role", default: "user", null: false
+    t.jsonb "communication_preferences"
     t.json "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
