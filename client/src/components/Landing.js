@@ -20,10 +20,10 @@ class Landing extends Component {
       return(
         <Grid>
           <Grid.Row>
-            <Grid.Column width={2}>
+            <Grid.Column width={3}>
               <NavBar />
             </Grid.Column>
-            <Grid.Column width={14}>
+            <Grid.Column width={13}>
               <Flash />
               <Switch>
                 <ProtectedRoute exact path='/' component={Portfolio} />
