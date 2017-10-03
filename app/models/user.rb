@@ -7,4 +7,6 @@ class User < ActiveRecord::Base
 
   validates_presence_of :name, :phone, :role
   validates_inclusion_of :role, in: %w(user admin)
+
+  has_many :projects, dependent: :destroy
 end
