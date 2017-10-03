@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Header, Segment, Form, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { handleLogin } from '../actions/auth';
+import Flash from './Flash';
 
 class Login extends Component {
   state = { email: '', password: '' };
@@ -22,6 +23,7 @@ class Login extends Component {
     const { email, password } = this.state;
     return (
       <Segment basic>
+        <Flash />
         <Header as='h1' textAlign='center'>Login</Header>
         <Form onSubmit={this.handleSubmit}>
           <Form.Field>
