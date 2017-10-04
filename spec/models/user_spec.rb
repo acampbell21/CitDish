@@ -29,15 +29,8 @@
 #  updated_at                :datetime         not null
 #
 
-class User < ActiveRecord::Base
-  # Include default devise modules.
-  devise :database_authenticatable, :registerable,
-          :recoverable, :rememberable, :trackable, :validatable,
-          :omniauthable
-  include DeviseTokenAuth::Concerns::User
+require 'rails_helper'
 
-  validates_presence_of :name, :phone, :role
-  validates_inclusion_of :role, in: %w(user admin)
-
-  has_many :projects, dependent: :destroy
+RSpec.describe User, type: :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

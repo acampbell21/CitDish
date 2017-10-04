@@ -11,11 +11,8 @@
 #  updated_at                :datetime         not null
 #
 
-class Project < ApplicationRecord
-  belongs_to :user
-  validates_presence_of :title
+require 'rails_helper'
 
-  def self.active
-    where(active: true)
-  end
+RSpec.describe Project, type: :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end
