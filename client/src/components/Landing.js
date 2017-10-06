@@ -18,7 +18,7 @@ import bgPattern from '../images/bg-pattern.jpg'
 
 class Landing extends Component {
   render() {
-    const { dispatch, user, history: { location: { pathname } } } = this.props;
+    const { dispatch, user, history: { location: { pathname, search } } } = this.props;
     const noTopBarPaths = [ '/', '/portfolio' ];
 
     if(user.id) {
@@ -49,7 +49,10 @@ class Landing extends Component {
         </Grid>
       )
     } else {
-      return(<Redirect to='/login' />)
+      if(pathname === '/invitation/accept')
+        return(<Redirect to={`/invitation/accept${search}`} />)
+      else
+        return(<Redirect to='/login' />)
     }
   }
 }

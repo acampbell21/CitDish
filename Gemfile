@@ -17,6 +17,8 @@ gem 'devise', '~> 4.3.0'
 gem 'devise_token_auth', '~> 0.1.42'
 # OpenTok For Live Video Chat
 gem 'opentok'
+# User Invitations
+gem 'devise_invitable'
 
 group :development, :test do
   # Call 'pry' anywhere in the code to stop execution and get a debugger console
@@ -28,22 +30,25 @@ group :development, :test do
   # Annotate Models And Rouutes With DB Schema Info
   gem 'annotate', '~> 2.7.2'
   # Hide Your Senstive Data
-  gem 'dotenv-rails', '~> 2.2.1'
+  gem 'dotenv-rails'
+  # Open Mail In Development
+  gem 'letter_opener'
+  
 end
 
 group :test do
   # Clean Your Database Between Tests
-  gem 'database_cleaner', '~> 1.6.1'
+  gem 'database_cleaner'
   # Generate Spec Coverage Docs
   gem 'simplecov', require: false
   # Model Factories For Ease Of Testing
-  gem 'factory_girl_rails', '~> 4.8.0'
+  gem 'factory_girl_rails'
   # Easy Model Testing
-  gem 'shoulda-matchers', '~> 3.1.2'
+  gem 'shoulda-matchers'
   # Webdriver For Browser Testing
-  gem 'selenium-webdriver', '~> 3.6.0'
+  # gem 'selenium-webdriver'
   # DSL For Feature Specs
-  gem 'capybara-rails', '~> 0.0.2'
+  # gem 'capybara-rails'
 end
 
 group :development do
