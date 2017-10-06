@@ -8,6 +8,8 @@ import cdLogo from '../images/cd-logo.png';
 const styles = {
   navbar: {
     height: '100vh',
+    backgroundColor: '#333335',
+    borderRadius: 0,
   },
   logo: {
     paddingTop: '25px',
@@ -27,30 +29,36 @@ const styles = {
   },
 }
 
-const navLinks = () => {
+const navLinks = (user) => {
   const links = [
     {url: '/portfolio', text: 'Portfolio', icon: 'block layout'},
     {url: '/account', text: 'Account', icon: 'user'},
-    {url: '/payment', text: 'Payment', icon: 'credit card alternative'},
-    {url: '/team', text: 'Manage Team', icon: 'users'},
+    {url: '/clients', text: 'Manage Clients', icon: 'address book'},
+    {url: '/payment', text: 'Payment', icon: 'credit card alternative', admin: true},
+    {url: '/team', text: 'Manage Team', icon: 'users', admin: true},
   ]
 
-  return links.map(link => {
-    return(
-      <Segment basic>
-        <NavLink activeStyle={styles.activeNavStyle} style={styles.navStyle} to={link.url}>
-          <Icon style={styles.navIcon} inverted name={link.icon} />
-          {link.text}
-        </NavLink>
-      </Segment>
-    )
-  })
+  return links.map( (link, index) => {
+    if(link.admin && user.role !== 'admin')
+      return null
+    else
+      return(
+        <Segment basic key={index}>
+          <NavLink activeStyle={styles.activeNavStyle} style={styles.navStyle} to={link.url}>
+            <Icon style={styles.navIcon} inverted name={link.icon} />
+            {link.text}
+          </NavLink>
+        </Segment>
+      )
+  });
 }
 
 const NavBar = ({ dispatch, history, user }) => (
   <Segment inverted style={styles.navbar}>
     <Menu.Item name='home'>
-      <Image style={styles.logo} src={cdLogo} alt='CitizenDish Logo' fluid />
+      <Link to='/'>
+        <Image style={styles.logo} src={cdLogo} alt='CitizenDish Logo' fluid />
+      </Link>
     </Menu.Item>
     <Divider clearing style={styles.divider} />
     <Menu.Item name='camera'>
@@ -69,7 +77,7 @@ const NavBar = ({ dispatch, history, user }) => (
       </Grid>
     </Menu.Item>
     <Divider clearing style={styles.divider} />
-    { navLinks() }
+    { navLinks(user) }
     <Divider clearing style={styles.divider} />
   </Segment>
 )
