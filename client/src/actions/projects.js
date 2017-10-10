@@ -1,18 +1,17 @@
 import axios from 'axios';
-import { setFlash } from '../flash';
-
-const setProjects = (projects) => {
-  return { type: 'SET_PROJECTS', projects }
-}
+import { setFlash } from './flash';
+import { setHeaders } from './headers';
 
 export const fetchProjects = () => {
   return(dispatch) => {
     axios.get('/api/projects')
       .then( res => {
-        dispatch(setProjects(res.data));
+        const { data: projects, headers } = res;
+        dispatch({ type: 'SET_PROJECTS', projects, headers });
       })
       .catch( res => {
-        setFlash('Error Loading Projects', 'error');
-      })
+        setFlash('Error Loading Projects', 'red');
+        dispatch(setHeaders(res.headers));
+    });
   }
 }

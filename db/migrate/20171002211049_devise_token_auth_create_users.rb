@@ -56,6 +56,10 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[5.1]
       ## Tokens
       t.json :tokens
 
+      #OAuth
+      t.jsonb :crm_oauth
+      t.jsonb :social_oauth
+
       t.timestamps
     end
 

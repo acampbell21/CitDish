@@ -15,10 +15,12 @@ gem 'omniauth', '~> 1.6.1'
 gem 'devise', '~> 4.3.0'
 # JWT Token Auth For Devise
 gem 'devise_token_auth', '~> 0.1.42'
-# OpenTok For Live Video Chat
-gem 'opentok'
 # User Invitations
 gem 'devise_invitable'
+# Live Video Conferencing
+gem 'opentok', '~> 2.5.0'
+# Salesforce APIs
+gem 'restforce', '~> 2.5.3'
 
 group :development, :test do
   # Call 'pry' anywhere in the code to stop execution and get a debugger console
@@ -33,7 +35,7 @@ group :development, :test do
   gem 'dotenv-rails'
   # Open Mail In Development
   gem 'letter_opener'
-  
+
 end
 
 group :test do

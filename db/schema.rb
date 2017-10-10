@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171006204853) do
+ActiveRecord::Schema.define(version: 20171011200440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,12 +43,14 @@ ActiveRecord::Schema.define(version: 20171006204853) do
 
   create_table "clients", force: :cascade do |t|
     t.string "name", null: false
-    t.string "email", null: false
-    t.string "phone", null: false
+    t.string "email"
+    t.string "phone"
     t.string "photo", default: ""
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "uid", null: false
+    t.boolean "from_crm", default: true
     t.index ["user_id"], name: "index_clients_on_user_id"
   end
 
@@ -108,6 +110,8 @@ ActiveRecord::Schema.define(version: 20171006204853) do
     t.jsonb "communication_preferences"
     t.bigint "team_id"
     t.json "tokens"
+    t.jsonb "crm_oauth"
+    t.jsonb "social_oauth"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true

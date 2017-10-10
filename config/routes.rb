@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   namespace :api do
     get 'opentok_session', to: 'opentok#create_session'
     get 'team', to: 'teams#index'
+    get 'salesforce_creds', to: 'salesforce#creds'
+    post 'oauth', to: 'oauth#create'
+    get 'oauth/clients', to: 'oauth#clients'
+    get 'clients', to: 'clients#index'
   end
 
   post '/invitation/send', to: 'invitations#invite'

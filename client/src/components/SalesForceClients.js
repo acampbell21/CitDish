@@ -1,32 +1,57 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { OAuth, DataService } from 'forcejs';
-import { Segment, Button } from 'semantic-ui-react';
+import { Segment, Button, Dimmer, Loader } from 'semantic-ui-react';
+import { setFlash } from '../actions/flash';
+import { setOauth, setClients } from '../actions/oauth';
+import axios from 'axios';
 
 class SalesForceClients extends Component {
+  state = { loaded: false, appId: '', loginUrl: 'https://login.salesforce.com', oauthCallbackUrl: '' };
+
+  componentDidMount() {
+    axios.get('/api/salesforce_creds')
+      .then(res => {
+        const { appId, oauthCallbackUrl } = res.data;
+        this.setState({ appId, oauthCallbackUrl });
+      })
+      .catch(res => {
+        this.props.dispatch(setFlash('Error Getting Salesforce Data. Try Again!', 'error'));
+      })
+      .then(() => {
+        this.setState({ loaded: true });
+      })
+  }
+
   salesforceOAuth = () => {
-    let oauth = OAuth.createInstance('3MVG9g9rbsTkKnAUD1XhlRDobc7ZMhSWknTqS.q86SSXGhWZgzkKUgrTOo61VlVyaEPbCHZOBF4dWwVDe9Vpq', 'https://login.salesforce.com', 'http://localhost:3000/oauth');
+    this.setState({ loaded: false });
+    const { dispatch } = this.props;
+    const { appId, loginUrl, oauthCallbackUrl } = this.state;
+    const oauth = OAuth.createInstance(appId, loginUrl, oauthCallbackUrl);
+
     oauth.login()
       .then(oauthResult => {
-        DataService.createInstance(oauthResult, { useProxy: true });
-        loadContacts();
+        dispatch(setOauth(oauthResult));
+        dispatch(setClients(() => this.setState({ loaded: true })));
+      })
+      .catch( () => {
+        this.setState({ loaded: true });
     });
-
-    let loadContacts = () => {
-      let service = DataService.getInstance();
-      service.query('select id, Name from contact LIMIT 50')
-        .then(response => {
-          this.props.dispatch({ type: 'SET_CONTACTS', contacts: response.records });
-      });
-    }
   }
 
   render() {
-    return(
-      <Segment>
-        <Button onClick={this.salesforceOAuth}>Login To SalesForce</Button>
-      </Segment>
-    )
+    if(this.state.loaded)
+      return(
+        <Segment>
+          <Button onClick={this.salesforceOAuth}>Login To SalesForce</Button>
+        </Segment>
+      )
+    else
+      return(
+        <Dimmer active>
+          <Loader>Loading SalesForce Integration...</Loader>
+        </Dimmer>
+      );
   }
 }
 

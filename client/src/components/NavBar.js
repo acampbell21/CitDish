@@ -44,7 +44,11 @@ const navLinks = (user) => {
     else
       return(
         <Segment basic key={index}>
-          <NavLink activeStyle={styles.activeNavStyle} style={styles.navStyle} to={link.url}>
+          <NavLink
+            activeStyle={styles.activeNavStyle}
+            style={styles.navStyle}
+            to={link.url}
+          >
             <Icon style={styles.navIcon} inverted name={link.icon} />
             {link.text}
           </NavLink>
@@ -66,12 +70,22 @@ const NavBar = ({ dispatch, history, user }) => (
         <Grid.Row>
           <Grid.Column width={8}>
             <Link to='/account'>
-              <Image src={user.image} alt='User Profile Image' fluid shape='circular' />
+              <Image
+                src={user.image}
+                alt='User Profile Image'
+                fluid shape='circular'
+            />
             </Link>
           </Grid.Column>
           <Grid.Column width={8}>
             <p>{user.name}</p>
-            <Button compact size='tiny' onClick={() => dispatch(handleLogout(history))}>Logout</Button>
+            <Button
+              compact
+              size='tiny'
+              onClick={() => dispatch(handleLogout(history))}
+            >
+              Logout
+          </Button>
           </Grid.Column>
         </Grid.Row>
       </Grid>
