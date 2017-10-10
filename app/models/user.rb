@@ -42,4 +42,5 @@ class User < ActiveRecord::Base
   belongs_to :team
 
   has_many :projects, dependent: :destroy
+  has_many :clients, dependent: :destroy
 end
