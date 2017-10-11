@@ -16,3 +16,4 @@
 # Custom Ignores
 coverage/
 .env
+node_modules

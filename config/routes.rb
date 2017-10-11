@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     post 'oauth', to: 'oauth#create'
     get 'oauth/clients', to: 'oauth#clients'
     get 'clients', to: 'clients#index'
+    post 'images/user_image', to: 'images#add_user_image'
+    post 'images/company_image', to: 'images#add_company_image'
   end
 
   post '/invitation/send', to: 'invitations#invite'

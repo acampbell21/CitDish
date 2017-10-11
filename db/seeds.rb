@@ -8,14 +8,17 @@ end
 unless test_user
   team.users.create(name: 'Test Testerson', phone: '801-888-8888',
               email: 'test@test.com', password: 'password',
-              image: 'https://sing.stanford.edu/site/images/missing.png')
-  puts 'Test Users Seeded'
+              image: 'https://sing.stanford.edu/site/images/missing.png',
+              company_name: 'Default Company Name',
+              company_image: 'http://i.stack.imgur.com/P1BHs.png')
+  puts 'Test User Seeded'
 end
 
 unless admin_user
   team.users.create(name: 'Admin User', phone: '801-999-9999',
               email: 'admin@test.com', password: 'password', role: 'admin',
-              image: 'https://sing.stanford.edu/site/images/missing.png')
+              image: 'https://sing.stanford.edu/site/images/missing.png',
+              company_name: 'Default Company Name',
+              company_image: 'http://i.stack.imgur.com/P1BHs.png')
   puts 'Admin Seeded'
 end
-  

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171011200440) do
+ActiveRecord::Schema.define(version: 20171011201439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,6 +114,8 @@ ActiveRecord::Schema.define(version: 20171011200440) do
     t.jsonb "social_oauth"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "company_image"
+    t.string "company_name"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
