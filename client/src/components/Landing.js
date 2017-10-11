@@ -11,6 +11,7 @@ import Portfolio from './Portfolio';
 import Account from './Account';
 import Payment from './Payment';
 import Clients from './Clients';
+import Tutorial from './Tutorial';
 import Team from './Team';
 import TopBar from './TopBar';
 import OAuth from './OAuth';
@@ -39,6 +40,7 @@ class Landing extends Component {
                 <ProtectedRoute exact path='/payment' component={Payment} />
                 <ProtectedRoute exact path='/team' component={Team} />
                 <ProtectedRoute exact path='/clients' component={Clients} />
+                <ProtectedRoute exact path='/tutorial' component={Tutorial} />
                 <ProtectedRoute exact path='/oauth' component={OAuth} />
 
                 {/* No Route Below This!! */}

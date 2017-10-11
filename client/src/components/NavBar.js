@@ -4,6 +4,7 @@ import { NavLink, Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { handleLogout } from '../actions/auth';
 import cdLogo from '../images/cd-logo.png';
+import Tutorial from './Tutorial'
 
 const styles = {
   navbar: {
@@ -27,6 +28,19 @@ const styles = {
   navIcon: {
     marginRight: '10px',
   },
+  supportEmail: {
+    color: 'white',
+    paddingLeft: '20px',
+    paddingRight: '30px',
+    paddingBottom: '60px',
+  },
+  tutorial: {
+    color: 'white',
+    paddingLeft: '20px',
+    paddingRight: '50px',
+    paddingTop: '180px',
+    fontSize: '16px',
+  }
 }
 
 const navLinks = (user) => {
@@ -93,6 +107,16 @@ const NavBar = ({ dispatch, history, user }) => (
     <Divider clearing style={styles.divider} />
     { navLinks(user) }
     <Divider clearing style={styles.divider} />
+    <Grid>
+      <Grid.Row>
+        <Link to='/tutorial' style={styles.tutorial} icon="question">? Tutorial</Link>
+      </Grid.Row>
+      <Grid.Row>
+        <a style={styles.supportEmail} href="mailto:support@citizendish.com">
+          support@citizendish.com
+        </a>
+      </Grid.Row>
+    </Grid>
   </Segment>
 )
 
