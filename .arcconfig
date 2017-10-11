@@ -1,0 +1,11 @@
+{
+  "project_id": "Citizendish",
+  "conduit_uri": "http://phabricator.devpointstudios.com",
+
+  "load": [
+    ".arcanist-extensions/rspec_test_engine"
+  ],
+
+  "unit.engine": "RSpecTestEngine",
+  "unit.engine.rspec.command": "bundle exec rspec"
+}

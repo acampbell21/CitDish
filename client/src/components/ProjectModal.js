@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Modal, Header, Input, Dropdown, Segment, Button, Icon, Divider, Form, Label } from 'semantic-ui-react';
+import { Modal, Header, Input, Dropdown, Segment, Button, Icon, Divider, Form } from 'semantic-ui-react';
 
 class ProjectModal extends Component { 
   state = { pages: 1, client: '', title: '' };
@@ -48,7 +48,7 @@ class ProjectModal extends Component {
 
   render() {
     const { client, title, pages } = this.state;
-    const disabled = (client && parseInt(pages) > 0 && title) ? {} : { disabled: true };
+    const disabled = (client && parseInt(pages, 10) > 0 && title) ? {} : { disabled: true };
 
     return(
       <Modal

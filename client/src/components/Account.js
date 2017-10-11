@@ -1,21 +1,8 @@
 import React, { Component } from 'react';
 import { updateAccount } from '../actions/accounts';
-import { setFlash } from '../actions/flash';
 import { connect } from 'react-redux';
 import { handleUpload, uploadCompanyImage } from '../actions/accounts';
-import {
-  Button,
-  Form,
-  Grid,
-  Image,
-  Dimmer,
-  Dropdown,
-  Segment,
-  Input,
-  Loader,
-  Header
-} from 'semantic-ui-react';
-import axios from 'axios';
+import { Button, Form, Grid, Image, Dimmer, Input, Loader } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
 
 class Account extends Component {
@@ -86,24 +73,22 @@ class Account extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { name, phone, password, password_confirmation, email, company_name } = this.state;
+    const { name, phone, password, email, company_name } = this.state;
     this.props.dispatch(updateAccount(name, phone, password, email, company_name))
   }
 
   render() {
-    const { name, phone, email, image, company_image, company_name, password } = this.state;
+    const { name, phone, email, company_name, password } = this.state;
 
     return (
-
       <Grid verticalAlign='middle' columns={12} padded="vertically" style={{ paddingTop: '100px' }}>
         <Grid.Row>
           <Grid.Column width={4} style={{ margin: '0 auto' }}>
-              { this.uploadDisplay() }
-              { this.uploadCompanyDisplay() }
+            { this.uploadDisplay() }
+            { this.uploadCompanyDisplay() }
           </Grid.Column>
-
           <Grid.Column width={4}>
-            <Form onSubmit={this.handleSubmit} fluid vertically>
+            <Form onSubmit={this.handleSubmit}>
               <Form.Field>
                 <Input
                   id="name"
@@ -153,14 +138,9 @@ class Account extends Component {
               <Button color='grey' type='submit'>Update Profile</Button>
             </Form>
           </Grid.Column>
-
           <Grid.Column width={4} style={{ margin: '0 auto' }}>
             <Button circular color="linkedin" icon="linkedin" />
           </Grid.Column>
-
-        </Grid.Row>
-        <Grid.Row>
-
         </Grid.Row>
       </Grid>
     )
@@ -170,6 +150,5 @@ class Account extends Component {
 const mapStateToProps = (state) => {
   return { user: state.user };
 }
-
 
 export default connect(mapStateToProps)(Account);

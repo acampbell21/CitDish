@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { OAuth, DataService } from 'forcejs';
+import { OAuth } from 'forcejs';
 import { Segment, Button, Dimmer, Loader } from 'semantic-ui-react';
 import { setFlash } from '../actions/flash';
 import { setOauth, setClients } from '../actions/oauth';

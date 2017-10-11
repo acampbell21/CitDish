@@ -7,6 +7,7 @@ export const updateAccount = (name, phone, password, email, company_name) => {
     axios.put('/api/auth', {name, phone, password, email, company_name})
       .then( res => {
         const { data: { data: user }, headers } = res;
+        dispatch(setFlash('Successfully Updated Account!', 'green'));
         dispatch({ type: 'LOGIN', user, headers });
       })
       .catch( res => {
@@ -16,7 +17,6 @@ export const updateAccount = (name, phone, password, email, company_name) => {
   }
 }
 
-
 export const handleUpload = (image, callback) => {
   return(dispatch) => {
     let data = new FormData();
@@ -24,6 +24,7 @@ export const handleUpload = (image, callback) => {
     axios.post('/api/images/user_image', data)
       .then( res => {
         const { data: image, headers } = res;
+        dispatch(setFlash('Successfully Uploaded User Image!', 'green'));
         dispatch({type: 'SET_IMAGE', image, headers });
         callback();
       })
@@ -41,6 +42,7 @@ export const uploadCompanyImage = (company_image, callback) => {
     axios.post('/api/images/company_image', data)
       .then( res => {
         const { data: company_image, headers } = res;
+        dispatch(setFlash('Successfully Uploaded Company Image!', 'green'));
         dispatch({type: 'SET_COMPANY_IMAGE', company_image, headers });
         callback();
       })
