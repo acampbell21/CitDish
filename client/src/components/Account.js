@@ -10,7 +10,7 @@ import Dropzone from 'react-dropzone';
 import SocialLoginButton from './SocialLoginButton';
 import LinkedInLogo from '../images/linkedin-round-logo.png';
 import SalesforceLogo from '../images/salesforce-logo.png';
-import SalesForceClients from './SalesForceClients';
+import SalesforceOAuth from './SalesforceOAuth';
 
 class Account extends Component {
   state = {
@@ -183,7 +183,7 @@ class Account extends Component {
                     Disconnect Salesforce
                   </Button> 
                 </Segment> :
-                <SalesForceClients />
+                <SalesforceOAuth />
               }
             </Segment>
             <Segment basic textAlign='center'>

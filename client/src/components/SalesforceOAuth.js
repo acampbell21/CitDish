@@ -6,7 +6,7 @@ import { setFlash } from '../actions/flash';
 import { setOauth } from '../actions/oauth';
 import axios from 'axios';
 
-class SalesForceClients extends Component {
+class SalesforceOAuth extends Component {
   state = { loaded: false, appId: '', loginUrl: 'https://login.salesforce.com', oauthCallbackUrl: '' };
 
   componentDidMount() {
@@ -57,4 +57,4 @@ class SalesForceClients extends Component {
   }
 }
 
-export default connect()(SalesForceClients);
+export default connect()(SalesforceOAuth);
