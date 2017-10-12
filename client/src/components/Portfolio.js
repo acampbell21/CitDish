@@ -3,7 +3,6 @@ import noProjectsPlaceholder from '../images/no-projects-placeholder.jpg';
 import { Segment, Image, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { fetchClients } from '../actions/clients';
-import SalesForceClients from './SalesForceClients';
 import ProjectModal from './ProjectModal';
 
 class Portfolio extends Component {
@@ -13,11 +12,13 @@ class Portfolio extends Component {
 
   render() {
     return(
-      <Segment basic>
-        <SalesForceClients />
+      <Segment basic style={{ marginTop: '10px' }}>
         <ProjectModal />
         <Divider hidden />
-        <Image size='medium' src={noProjectsPlaceholder} alt='No Projects Placeholder Image' />
+        { this.props.projects.length ?
+          <Segment>Show Projects Here</Segment> :
+          <Image size='medium' src={noProjectsPlaceholder} alt='No Projects Placeholder Image' />
+        }
       </Segment>
     );
   }

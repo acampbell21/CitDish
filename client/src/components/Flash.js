@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Message, Container, Header } from 'semantic-ui-react';
+import { Message, Header, Segment } from 'semantic-ui-react';
 import { clearFlash } from '../actions/flash';
 
 const fadeFlash = dispatch => {
@@ -10,25 +10,19 @@ const fadeFlash = dispatch => {
 };
 
 const Flash = ({ flash, dispatch }) => {
-  if (flash.message) {
+  if (flash.message)
     return (
-      <Container>
-        <Message
-          onDismiss={() => dispatch(clearFlash())}
-          color={flash.color}
-        >
-          <Header as='h5' textAlign='center'>{flash.message}</Header>
-          {fadeFlash(dispatch)}
+      <Segment basic style={{ margin: '0', padding: '0' }} onClick={() => dispatch(clearFlash())}>
+        <Message style={{ textAlign: 'center' }} header={flash.message} color={flash.color}>
+          { fadeFlash(dispatch) }
         </Message>
-      </Container>
+      </Segment>
     );
-  }
   return null;
 };
 
 const mapStateToProps = state => {
-  const { flash } = state;
-  return { flash };
+  return { flash: state.flash };
 };
 
 export default connect(mapStateToProps)(Flash);

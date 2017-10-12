@@ -28,6 +28,7 @@ class ProjectModal extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    // TODO: Make this work with the server
   }
 
   selectClient = (client) => {
@@ -38,7 +39,7 @@ class ProjectModal extends Component {
     let pageInputs = [];
     for(let i = 1; i <= this.state.pages; i++) {
       pageInputs.push(
-        <Segment basic>
+        <Segment key={i} basic>
           <Input label={`Media For Page: ${i}`} type='file' required />
         </Segment>
       );
@@ -56,7 +57,7 @@ class ProjectModal extends Component {
         trigger={this.newProjectButton()}
       >
         <Modal.Header>New Project</Modal.Header>
-        <Modal.Content scrolling>
+        <Modal.Content>
           <Form onSubmit={this.handleSubmit}>
             <Modal.Description>
                 <Header>Project Title</Header>

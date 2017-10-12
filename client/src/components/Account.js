@@ -1,9 +1,16 @@
+/*eslint no-restricted-globals: ["warn", "event", "fdescribe"]*/
 import React, { Component } from 'react';
 import { updateAccount } from '../actions/accounts';
 import { connect } from 'react-redux';
 import { handleUpload, uploadCompanyImage } from '../actions/accounts';
-import { Button, Form, Grid, Image, Dimmer, Input, Loader } from 'semantic-ui-react';
+import { Button, Form, Grid, Image, Input, Segment, Icon, Header, Divider } from 'semantic-ui-react';
+import { setFlash } from '../actions/flash';
+import { setOauth, disconnectSocialOAuth, setLinkedInProfilePic, disconnectCrmOAuth } from '../actions/oauth';
 import Dropzone from 'react-dropzone';
+import SocialLoginButton from './SocialLoginButton';
+import LinkedInLogo from '../images/linkedin-round-logo.png';
+import SalesforceLogo from '../images/salesforce-logo.png';
+import SalesForceClients from './SalesForceClients';
 
 class Account extends Component {
   state = {
@@ -35,9 +42,10 @@ class Account extends Component {
   uploadDisplay = () => {
     if(this.state.fileUploading) {
       return(
-        <Dimmer active inverted>
-          <Loader>Please Wait...</Loader>
-        </Dimmer>
+        <Segment basic>
+          <Icon name='spinner' loading size='huge' />
+          <Header as='h3'>User Image Uploading Please Wait...</Header>
+        </Segment>
       );
     } else {
       return(
@@ -51,9 +59,10 @@ class Account extends Component {
   uploadCompanyDisplay = () => {
     if(this.state.companyUploading) {
       return(
-        <Dimmer active inverted>
-          <Loader>Please Wait...</Loader>
-        </Dimmer>
+        <Segment basic>
+          <Icon name='spinner' loading size='huge' />
+          <Header as='h3'>Company Image Uploading Please Wait...</Header>
+        </Segment>
       );
     } else {
       return(
@@ -77,8 +86,31 @@ class Account extends Component {
     this.props.dispatch(updateAccount(name, phone, password, email, company_name))
   }
 
+  handleSocialLogin = (payload) => {
+    this.props.dispatch(setOauth(payload));
+  }
+
+  handleSocialLoginFailure = () => {
+    this.props.dispatch(setFlash('You did not authorize the app. Try again!', 'red'));
+  }
+
+  disconnectSocialOauth = () => {
+    if(confirm('Really Disconnect LinkedIn?'))
+      this.props.dispatch(disconnectSocialOAuth());
+  }
+
+  disconnectCrmOauth = () => {
+    if(confirm('Really Disconnect Salesforce?'))
+      this.props.dispatch(disconnectCrmOAuth());
+  }
+
+  setLinkedInProfilePic = () => {
+    this.props.dispatch(setLinkedInProfilePic());
+  }
+
   render() {
     const { name, phone, email, company_name, password } = this.state;
+    const { social_oauth, crm_oauth } = this.props.user;
 
     return (
       <Grid verticalAlign='middle' columns={12} padded="vertically" style={{ paddingTop: '100px' }}>
@@ -139,12 +171,61 @@ class Account extends Component {
             </Form>
           </Grid.Column>
           <Grid.Column width={4} style={{ margin: '0 auto' }}>
-            <Button circular color="linkedin" icon="linkedin" />
+            <Segment basic textAlign='center'>
+              <Image src={SalesforceLogo} centered style={styles.salesforceLogo} alt='Salesforce Logo' />
+              { crm_oauth ?
+                <Segment basic>
+                  <Button 
+                    color='red' 
+                    onClick={this.disconnectCrmOauth}
+                    style={{ marginTop: '10px' }}
+                  >
+                    Disconnect Salesforce
+                  </Button> 
+                </Segment> :
+                <SalesForceClients />
+              }
+            </Segment>
+            <Segment basic textAlign='center'>
+              <Image src={LinkedInLogo} centered style={styles.linkedInLogo} alt='LinkedIn Logo' />
+              { social_oauth ?
+                <Segment basic>
+                  <Button 
+                    color='red' 
+                    onClick={this.disconnectSocialOauth}
+                    style={{ marginTop: '10px' }}
+                  >
+                    Disconnect LinkedIn
+                  </Button> 
+                  <Divider hidden />
+                  <Button size='tiny' onClick={this.setLinkedInProfilePic}>Use LinkedIn Picture</Button>
+                </Segment> :
+                <SocialLoginButton
+                  provider='linkedin'
+                  appId='86evrw56wtl8u8'
+                  onLoginSuccess={this.handleSocialLogin}
+                  onLoginFailure={this.handleSocialLoginFailure}
+                >
+                  <Button>Login To LinkedIn</Button>
+                </SocialLoginButton>
+              }
+              </Segment>
           </Grid.Column>
         </Grid.Row>
       </Grid>
     )
   }
+}
+
+const styles = {
+  salesforceLogo: {
+    width: '100px',
+    height: '80px',
+  },
+  linkedInLogo: {
+    width: '80px',
+    height: '80px',
+  },
 }
 
 const mapStateToProps = (state) => {

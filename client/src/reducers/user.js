@@ -8,9 +8,6 @@ const user = (state = {}, action) => {
       return {...state, company_image: action.company_image}
     case 'LOGOUT':
       return {};
-    case 'SET_CRM_OAUTH':
-      const { integration, oauthResult } = action;
-      return { ...state, crm_oauth: { integration, ...oauthResult } };
     default:
       return state;
   }

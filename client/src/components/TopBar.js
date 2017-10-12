@@ -49,6 +49,7 @@ const styles = {
     width: '100%',
     height: '100px',
     backgroundColor: 'rgb(0, 145, 210)',
+    marginTop: '0',
   },
   topBarSegment: {
     borderRadius: '999px',

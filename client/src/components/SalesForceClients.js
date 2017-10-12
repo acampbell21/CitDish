@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { OAuth } from 'forcejs';
 import { Segment, Button, Dimmer, Loader } from 'semantic-ui-react';
 import { setFlash } from '../actions/flash';
-import { setOauth, setClients } from '../actions/oauth';
+import { setOauth } from '../actions/oauth';
 import axios from 'axios';
 
 class SalesForceClients extends Component {
@@ -31,10 +31,12 @@ class SalesForceClients extends Component {
 
     oauth.login()
       .then(oauthResult => {
-        dispatch(setOauth(oauthResult));
-        dispatch(setClients(() => this.setState({ loaded: true })));
+        dispatch(setOauth(oauthResult, true));
       })
       .catch( () => {
+        dispatch(setFlash('Error Logging In. Try Again.', 'red'));
+      })
+      .then( () => {
         this.setState({ loaded: true });
     });
   }
@@ -42,8 +44,8 @@ class SalesForceClients extends Component {
   render() {
     if(this.state.loaded)
       return(
-        <Segment>
-          <Button onClick={this.salesforceOAuth}>Login To SalesForce</Button>
+        <Segment basic>
+          <Button onClick={this.salesforceOAuth}>Login To Salesforce</Button>
         </Segment>
       )
     else
