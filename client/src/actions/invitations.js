@@ -12,9 +12,9 @@ export const acceptInvitation = (invite, history) => {
         history.push('/login');
       })
       .catch( res => {
-        const message = res.response.data.errors;
+        const { response: { data: { errors } }, headers } = res;
         dispatch(setHeaders(res.headers));
-        dispatch(setFlash(message, 'red'));
+        dispatch(setFlash(errors, 'red'));
       });
   }
 }
