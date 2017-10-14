@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
-import { Header, Segment, Form, Button, Grid, Image, Input } from 'semantic-ui-react';
+import { Header,
+  Segment,
+  Form,
+  Button,
+  Image,
+  Grid,
+  Input,
+} from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { handleLogin } from '../actions/auth';
-import Flash from './Flash';
+import { registerUser } from '../actions/auth';
 import { Link } from 'react-router-dom';
+import Flash from './Flash';
 import cdLogo from '../images/cd-logo.png';
 
 const styles = {
@@ -49,8 +56,8 @@ const styles = {
   },
 }
 
-class Login extends Component {
-  state = { email: '', password: '' };
+class Register extends Component {
+  state = { name: '', phone: '',  email: '', password: '', passwordConfirmation: '' };
 
   handleChange = event => {
     const { id, value } = event.target;
@@ -60,12 +67,12 @@ class Login extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const { dispatch, history } = this.props;
-    const { email, password } = this.state;
-    dispatch(handleLogin(email, password, history));
+    const { name, phone, email, password, passwordConfirmation } = this.state;
+    dispatch(registerUser(name, phone, email, password, passwordConfirmation, history));
   }
 
   render() {
-    const { email, password } = this.state;
+    const { name, phone, email, password, passwordConfirmation } = this.state;
     return (
       <Grid style={styles.grid}>
         <Segment basic style={{ border: '1px solid black', padding: '0' }}>
@@ -82,20 +89,61 @@ class Login extends Component {
                 <Header
                   className='header'
                   as='h1'
-                  floated='right'> CitizenDish Login
+                  floated='right'> Sign Up for CitizenDish
                 </Header>
               </div>
             </Grid.Row>
           </div>
           <div style={styles.dualBox}>
-
+            {/* <Grid.Column>
+              <Header
+                paddingTop='10px'
+                color='grey'
+                as='h3'> Sign Up with your social accounts:
+              </Header>
+              <div style={styles.buttons}>
+                <Button circular color='google plus'>
+                  <Icon name='google plus' /> Sign Up With Google Plus
+                </Button>
+                <br/>
+                <Button circular color='facebook'>
+                  <Icon name='facebook' /> Sign Up With Facebook
+                </Button>
+                <br/>
+                <Button circular color='linkedin'>
+                  <Icon name='linkedin' /> Sign Up With LinkedIn
+                </Button>
+              </div>
+              <Header textAlign='center' color='blue' as='h5'>
+                <Link to='/Login'>Existing users, Log in</Link>
+              </Header>
+            </Grid.Column> */}
             <Grid.Column>
               <Header
                 paddingTop='10px'
                 color='grey'
-                as='h3'> Please enter your email and password:
+                as='h3'> Please complete to Sign Up:
               </Header>
                 <Form onSubmit={this.handleSubmit}>
+                  <Form.Field>
+                    <Input
+                      required
+                      id='name'
+                      value={name}
+                      placeholder='Your Name'
+                      onChange={this.handleChange}
+                    />
+                  </Form.Field>
+
+                  <Form.Field>
+                    <Input
+                      required
+                      id='phone'
+                      value={phone}
+                      placeholder='Your Phone Number'
+                      onChange={this.handleChange}
+                    />
+                  </Form.Field>
 
                   <Form.Field>
                     <Input
@@ -118,22 +166,33 @@ class Login extends Component {
                     />
                   </Form.Field>
 
+                  <Form.Field>
+                    <Input
+                      required
+                      id='passwordConfirmation'
+                      value={passwordConfirmation}
+                      placeholder='Confirm Your Password'
+                      type='passwordConfirmation'
+                      onChange={this.handleChange}
+                    />
+                  </Form.Field>
+
 
                   <Segment style={styles.submit} basic>
 
                       <Link
-                        to='/Register'
+                        to='/Login'
                         // textAlign='center'
                         floated='left'
                         color='blue'
-                        as='h4'>New User?</Link>
+                        as='h5'>Existing User Log in</Link>
 
                       <Button
                         size='big'
                         circular
                         floated='right'
                         primary
-                        type='submit'> Login
+                        type='submit'> Done
                       </Button>
 
                   </Segment>
@@ -146,4 +205,4 @@ class Login extends Component {
   }
 }
 
-export default connect()(Login);
+export default connect()(Register);

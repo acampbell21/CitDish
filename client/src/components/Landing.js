@@ -51,8 +51,8 @@ class Landing extends Component {
         </Grid>
       )
     } else {
-      if(pathname === '/invitation/accept')
-        return(<Redirect to={`/invitation/accept${search}`} />)
+      if(this.props.location.pathname === '/register')
+        return(<Redirect to='/register' />)
       else
         return(<Redirect to='/login' />)
     }

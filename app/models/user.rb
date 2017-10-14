@@ -55,4 +55,15 @@ class User < ActiveRecord::Base
 
   has_many :projects, dependent: :destroy
   has_many :clients, dependent: :destroy
+
+  before_validation :set_team
+
+  private
+    def set_team
+      if self.new_record? && self.invitation_token.nil?
+        team = Team.create
+        self.team = team
+        team.admin_ids << self.id
+      end
+    end
 end
