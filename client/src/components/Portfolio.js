@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import noProjectsPlaceholder from '../images/no-projects-placeholder.jpg';
-import { Segment, Image, Divider } from 'semantic-ui-react';
+import { Segment, Image, Divider, Responsive } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { fetchClients } from '../actions/clients';
 import ProjectModal from './ProjectModal';
@@ -12,16 +12,29 @@ class Portfolio extends Component {
 
   render() {
     return(
-      <Segment basic style={{ marginTop: '10px' }}>
+      <Segment basic>
         <ProjectModal />
         <Divider hidden />
         { this.props.projects.length ?
           <Segment>Show Projects Here</Segment> :
-          <Image size='medium' src={noProjectsPlaceholder} alt='No Projects Placeholder Image' />
+          <Segment basic style={styles.noPad}>
+            <Responsive as={Segment} basic style={styles.noPad} minWidth={992}>
+              <Image size='medium' src={noProjectsPlaceholder} alt='No Projects Placeholder Image' />
+            </Responsive>
+            <Responsive as={Segment} basic style={styles.noPad} maxWidth={992}>
+              <Image centered size='medium' src={noProjectsPlaceholder} alt='No Projects Placeholder Image' />
+            </Responsive>
+          </Segment>
         }
       </Segment>
     );
   }
+}
+
+const styles = {
+  noPad: {
+    padding: '0',
+  },
 }
 
 const mapStateToProps = (state) => {
