@@ -20,6 +20,11 @@ const styles = {
   activeNavStyle: {
     textDecoration: 'underline',
   },
+  whiteOutline: {
+    outlineColor: 'white',
+    outlineStyle: 'solid',
+    outlineWidth: '2px',
+  },
   navIcon: {
     marginRight: '10px',
   },
@@ -29,6 +34,18 @@ const styles = {
   tutorial: {
     color: 'white',
     fontSize: '18px',
+  },
+  tutorialSegment: {
+    display: 'flex', 
+    alignItems: 'baseline', 
+    position: 'absolute', 
+    bottom: '40px'
+  },
+  supportSegment: {
+    display: 'flex', 
+    alignItems: 'baseline', 
+    position: 'absolute', 
+    bottom: '0px'
   }
 }
 
@@ -68,14 +85,13 @@ class NavBar extends Component {
 
     return(
       <Sidebar.Pushable as={Segment} basic>
-        <Sidebar as={Menu} animation='push' visible={this.state.navVisible} vertical inverted>
-          <Menu.Item name='home'>
+        <Sidebar as={Menu} animation='push' visible={this.state.navVisible} vertical inverted style={{ display: 'flex' }}>
+          <Menu.Item style={styles.whiteOutline} name='home'>
             <Link to='/'>
               <Image style={styles.logo} src={cdLogo} alt='CitizenDish Logo' fluid />
             </Link>
           </Menu.Item>
-          <Divider clearing style={styles.divider} />
-          <Menu.Item name='camera'>
+          <Menu.Item style={styles.whiteOutline} name='camera'>
             <Grid>
               <Grid.Row>
                 <Grid.Column width={8}>
@@ -100,17 +116,16 @@ class NavBar extends Component {
               </Grid.Row>
             </Grid>
           </Menu.Item>
-          <Divider clearing style={styles.divider} />
           { this.navLinks(user) }
-          <Divider clearing style={styles.divider} />
-            <Menu.Item>
-              <Link to='/tutorial' style={styles.tutorial} icon="question">? Tutorial</Link>
-            </Menu.Item>
-          <Menu.Item>
+          <Divider style={styles.divider} />
+          <Segment basic style={styles.tutorialSegment}>
+            <Link to='/tutorial' style={styles.tutorial} icon="question">? Tutorial</Link>
+          </Segment>
+          <Segment basic style={styles.supportSegment}>
             <a style={styles.supportEmail} href="mailto:support@citizendish.com">
               support@citizendish.com
             </a>
-          </Menu.Item>
+          </Segment>
         </Sidebar>
         <Sidebar.Pusher>
           <Segment basic>
@@ -118,7 +133,7 @@ class NavBar extends Component {
           </Segment>
           <Button 
             onClick={() => this.setState({ navVisible: !this.state.navVisible})}
-            style={{ borderRadius: '999px', marginTop: '10%' }}
+            style={{ top: '50%', marginRight: '1010px', position: 'fixed' }}
             icon={ this.state.navVisible ? 'arrow left' : 'arrow right' }
           />
         </Sidebar.Pusher>
