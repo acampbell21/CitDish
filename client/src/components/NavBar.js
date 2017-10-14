@@ -30,15 +30,9 @@ const styles = {
   },
   supportEmail: {
     color: 'white',
-    paddingLeft: '20px',
-    paddingRight: '30px',
-    paddingBottom: '60px',
   },
   tutorial: {
     color: 'white',
-    paddingLeft: '20px',
-    paddingRight: '50px',
-    paddingTop: '180px',
     fontSize: '16px',
   }
 }
