@@ -12,9 +12,12 @@ import { registerUser } from '../actions/auth';
 import { Link } from 'react-router-dom';
 import Flash from './Flash';
 import cdLogo from '../images/cd-logo.png';
+import bgPattern from '../images/bg-pattern.jpg'
 
 const styles = {
   grid: {
+    background: `url(${bgPattern}) no-repeat center center fixed`,
+    backgroundSize: 'cover',
     height: '100%',
     padding: 0,
     margin: 0,
@@ -52,7 +55,11 @@ const styles = {
   submit: {
     display: 'flex',
     justifyContent: 'space-between',
-
+  },
+  registerBox: { 
+    border: '1px solid black', 
+    padding: '0',
+    backgroundColor: 'white',
   },
 }
 
@@ -75,7 +82,7 @@ class Register extends Component {
     const { name, phone, email, password, passwordConfirmation } = this.state;
     return (
       <Grid style={styles.grid}>
-        <Segment basic style={{ border: '1px solid black', padding: '0' }}>
+        <Segment basic style={styles.registerBox}>
           <Flash />
           <div style={styles.row}>
             <Grid.Row>

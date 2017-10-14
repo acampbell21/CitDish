@@ -5,10 +5,13 @@ import { handleLogin } from '../actions/auth';
 import Flash from './Flash';
 import { Link } from 'react-router-dom';
 import cdLogo from '../images/cd-logo.png';
+import bgPattern from '../images/bg-pattern.jpg'
 
 const styles = {
   grid: {
     height: '100%',
+    background: `url(${bgPattern}) no-repeat center center fixed`,
+    backgroundSize: 'cover',
     padding: 0,
     margin: 0,
     flexDirection: 'column',
@@ -47,6 +50,11 @@ const styles = {
     justifyContent: 'space-between',
 
   },
+  loginBox: { 
+    border: '1px solid black', 
+    padding: '0',
+    backgroundColor: 'white' 
+  },
 }
 
 class Login extends Component {
@@ -68,7 +76,7 @@ class Login extends Component {
     const { email, password } = this.state;
     return (
       <Grid style={styles.grid}>
-        <Segment basic style={{ border: '1px solid black', padding: '0' }}>
+        <Segment basic style={styles.loginBox}>
           <Flash />
           <div style={styles.row}>
             <Grid.Row>
