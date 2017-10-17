@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Message, Header, Segment } from 'semantic-ui-react';
+import { Message, Segment } from 'semantic-ui-react';
 import { clearFlash } from '../actions/flash';
 
 const fadeFlash = dispatch => {

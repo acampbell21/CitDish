@@ -13,7 +13,7 @@ export const acceptInvitation = (invite, history) => {
       })
       .catch( res => {
         const { response: { data: { errors } }, headers } = res;
-        dispatch(setHeaders(res.headers));
+        dispatch(setHeaders(headers));
         dispatch(setFlash(errors, 'red'));
       });
   }

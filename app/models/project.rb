@@ -9,7 +9,8 @@
 #  user_id                   :integer
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
-
+#  clients                   :jsonb
+#
 
 class Project < ApplicationRecord
   belongs_to :user
@@ -21,4 +22,3 @@ class Project < ApplicationRecord
     where(active: true)
   end
 end
-

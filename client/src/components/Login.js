@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Header, Segment, Form, Button, Grid, Image, Input } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { handleLogin } from '../actions/auth';
-import Flash from './Flash';
 import { Link } from 'react-router-dom';
 import cdLogo from '../images/cd-logo.png';
 import bgPattern from '../images/bg-pattern.jpg'
@@ -50,10 +49,10 @@ const styles = {
     justifyContent: 'space-between',
 
   },
-  loginBox: { 
-    border: '1px solid black', 
+  loginBox: {
+    border: '1px solid black',
     padding: '0',
-    backgroundColor: 'white' 
+    backgroundColor: 'white'
   },
 }
 
@@ -77,14 +76,13 @@ class Login extends Component {
     return (
       <Grid style={styles.grid}>
         <Segment basic style={styles.loginBox}>
-          <Flash />
           <div style={styles.row}>
             <Grid.Row>
               <div style={styles.logo}>
                 <Image
                   size='small'
                   floated='left'
-                  fluid src={cdLogo}
+                  src={cdLogo}
                   alt='CitizenDish Logo'
                 />
                 <Header
@@ -99,7 +97,6 @@ class Login extends Component {
 
             <Grid.Column>
               <Header
-                paddingTop='10px'
                 color='grey'
                 as='h3'> Please enter your email and password:
               </Header>

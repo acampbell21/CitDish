@@ -2,16 +2,16 @@ import axios from 'axios'
 import { setFlash } from './flash';
 import { setHeaders } from './headers';
 
-export const updateAccount = (name, phone, password, email, company_name) => {
+export const updateAccount = (name, phone, current_password, email, company_name) => {
   return (dispatch) => {
-    axios.put('/api/auth', {name, phone, password, email, company_name})
+    axios.put('/api/auth', {name, phone, current_password, email, company_name})
       .then( res => {
         const { data: { data: user }, headers } = res;
         dispatch(setFlash('Successfully Updated Account!', 'green'));
         dispatch({ type: 'LOGIN', user, headers });
       })
       .catch( res => {
-        dispatch(setFlash('Error Updating Account details', 'error'));
+        dispatch(setFlash(`Error Updating Account: ${res.response.data.errors.full_messages.join(',')}`, 'error'));
         dispatch(setHeaders(res.headers));
     });
   }

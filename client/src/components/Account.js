@@ -1,24 +1,17 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 import { Grid } from 'semantic-ui-react';
-import AccountSocialMedia from './AccountSocialMedia';
+import AccountIntegrations from './AccountIntegrations';
 import AccountDetails from './AccountDetails';
 import AccountImages from './AccountImages';
 
-class Account extends Component {
+const Account = () => (
+  <Grid verticalAlign='middle' columns={12} padded="vertically" style={{ paddingTop: '100px' }}>
+    <Grid.Row>
+      <AccountImages />
+      <AccountDetails />
+      <AccountIntegrations />
+    </Grid.Row>
+  </Grid>
+);
 
-  render() {
-    return (
-      <Grid verticalAlign='middle' columns={12} padded="vertically" style={{ paddingTop: '100px' }}>
-        <Grid.Row>
-          <AccountImages />
-          <AccountDetails />
-          <AccountSocialMedia />
-        </Grid.Row>
-      </Grid>
-    )
-  }
-}
-
-export default Account
-
+export default Account;

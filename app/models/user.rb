@@ -58,6 +58,17 @@ class User < ActiveRecord::Base
 
   before_validation :set_team
 
+  def create_crm_client(client)
+    self.clients.create!(
+      uid: client.Id, name: client.Name,
+      email: client.Email, phone: client.Phone,
+      mobile_phone: client.MobilePhone,
+      mailing_address: client.MailingAddress,
+      home_phone: client.HomePhone, title: client.Title,
+      notes: client.Notes
+    )
+  end
+
   private
     def set_team
       if self.new_record? && self.invitation_token.nil?

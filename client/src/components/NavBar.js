@@ -4,7 +4,7 @@ import { NavLink, Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { handleLogout } from '../actions/auth';
 import cdLogo from '../images/cd-logo.png';
-import Tutorial from './Tutorial'
+import Flash from './Flash';
 
 const styles = {
   logo: {
@@ -36,22 +36,20 @@ const styles = {
     fontSize: '18px',
   },
   tutorialSegment: {
-    display: 'flex', 
-    alignItems: 'baseline', 
-    position: 'absolute', 
+    display: 'flex',
+    alignItems: 'baseline',
+    position: 'absolute',
     bottom: '40px'
   },
   supportSegment: {
-    display: 'flex', 
-    alignItems: 'baseline', 
-    position: 'absolute', 
+    display: 'flex',
+    alignItems: 'baseline',
+    position: 'absolute',
     bottom: '0px'
   }
 }
 
 class NavBar extends Component {
-  state = { navVisible: true };
-
   navLinks = (user) => {
     const links = [
       {url: '/portfolio', text: 'Portfolio', icon: 'block layout'},
@@ -60,7 +58,7 @@ class NavBar extends Component {
       {url: '/payment', text: 'Payment', icon: 'credit card alternative', admin: true},
       {url: '/team', text: 'Manage Team', icon: 'users', admin: true},
     ]
-  
+
     return links.map( (link, index) => {
       if(link.admin && user.role !== 'admin')
         return null
@@ -68,6 +66,7 @@ class NavBar extends Component {
         return(
           <Segment basic key={index}>
             <NavLink
+              onClick={this.props.setNavVisible}
               activeStyle={styles.activeNavStyle}
               style={styles.navStyle}
               to={link.url}
@@ -81,13 +80,13 @@ class NavBar extends Component {
   }
 
   render() {
-    const { dispatch, history, user, children } = this.props;
+    const { dispatch, history, user, children, visible, setNavVisible } = this.props;
 
     return(
-      <Sidebar.Pushable as={Segment} basic>
-        <Sidebar as={Menu} animation='push' visible={this.state.navVisible} vertical inverted style={{ display: 'flex' }}>
+      <Sidebar.Pushable as={Segment} basic style={{ margin: 0 }}>
+        <Sidebar as={Menu} animation='push' visible={visible} vertical inverted style={{ display: 'flex' }}>
           <Menu.Item style={styles.whiteOutline} name='home'>
-            <Link to='/'>
+            <Link to='/' onClick={setNavVisible}>
               <Image style={styles.logo} src={cdLogo} alt='CitizenDish Logo' fluid />
             </Link>
           </Menu.Item>
@@ -119,7 +118,14 @@ class NavBar extends Component {
           { this.navLinks(user) }
           <Divider style={styles.divider} />
           <Segment basic style={styles.tutorialSegment}>
-            <Link to='/tutorial' style={styles.tutorial} icon="question">? Tutorial</Link>
+            <Link
+              to='/tutorial'
+              style={styles.tutorial}
+              icon="question"
+              onClick={setNavVisible}
+            >
+              ? Tutorial
+            </Link>
           </Segment>
           <Segment basic style={styles.supportSegment}>
             <a style={styles.supportEmail} href="mailto:support@citizendish.com">
@@ -128,14 +134,10 @@ class NavBar extends Component {
           </Segment>
         </Sidebar>
         <Sidebar.Pusher>
-          <Segment basic>
+          <Segment basic style={{ padding: 0 }}>
+            <Flash />
             { children }
           </Segment>
-          <Button 
-            onClick={() => this.setState({ navVisible: !this.state.navVisible})}
-            style={{ top: '50%', marginRight: '1010px', position: 'fixed' }}
-            icon={ this.state.navVisible ? 'arrow left' : 'arrow right' }
-          />
         </Sidebar.Pusher>
       </Sidebar.Pushable>
     );

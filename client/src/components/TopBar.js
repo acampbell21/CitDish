@@ -6,10 +6,15 @@ class TopBar extends Component {
 
   pathToIcon() {
     const paths = {
-      '/account': 'user', '/payment': 'credit card alternative',
-      '/clients': 'address book', '/team': 'users'
+      'account': 'user',
+      'payment': 'credit card alternative',
+      'clients': 'address book',
+      'team': 'users',
+      'record': 'video camera',
     };
-    return paths[this.props.path]
+    
+    const pathSplit = this.props.path.split('/');
+    return paths[pathSplit[pathSplit.length - 1]]
   }
 
   toggleBorderColor = () => {

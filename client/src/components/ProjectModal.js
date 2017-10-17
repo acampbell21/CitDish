@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Modal, Header, Input, Dropdown, Segment, Button, Icon, Divider, Form } from 'semantic-ui-react';
+import { Modal, Header, Input, Dropdown, Segment, Button, Icon, Divider, Form, Dimmer, Loader } from 'semantic-ui-react';
+import { setFlash } from '../actions/flash';
+import { setHeaders } from '../actions/headers';
+import { addProject } from '../actions/projects';
+import { withRouter } from 'react-router-dom';
+import MediaInput from './MediaInput';
+import axios from 'axios';
 
-class ProjectModal extends Component { 
-  state = { pages: 1, client: '', title: '' };
+class ProjectModal extends Component {
+  state = {
+    clients: [],
+    title: '',
+    files: [],
+    fileUploading: false,
+  };
 
   newProjectButton() {
     return(
@@ -28,28 +39,57 @@ class ProjectModal extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: Make this work with the server
+    const { clients, title, files } = this.state;
+    const { dispatch, history } = this.props;
+
+    dispatch(addProject(clients, title, files, history));
   }
 
-  selectClient = (client) => {
-    this.setState({ client });
+  selectClient = (clients) => {
+    this.setState({ clients });
   }
 
-  pageUploads = () => {
-    let pageInputs = [];
-    for(let i = 1; i <= this.state.pages; i++) {
-      pageInputs.push(
-        <Segment key={i} basic>
-          <Input label={`Media For Page: ${i}`} type='file' required />
-        </Segment>
+  updateMediaFile = (acceptedFiles, rejectedFiles) => {
+    this.setState({ fileUploading: true });
+
+    const { dispatch } = this.props;
+
+    let data = new FormData();
+
+    acceptedFiles.forEach(file => {
+      data.append(file.name, file);
+    });
+
+    axios.post('/api/images/project_images', data)
+      .then(res => {
+        const { data, headers } = res;
+        this.setState({ files: [...this.state.files, ...data]});
+        dispatch(setHeaders(headers));
+      })
+      .catch(res => {
+        dispatch(setFlash('Error Uploading File. Please Try Again.', 'red'));
+        dispatch(setHeaders(res.headers));
+      })
+      .then( () => {
+        this.setState({ fileUploading: false });
+    });
+  }
+
+  mediaInputs = () => {
+    return this.state.files.map( (file, i) => {
+      return(
+        <MediaInput
+          key={i}
+          index={i}
+          updateMediaFile={this.updateMediaFile}
+        />
       );
-    }
-    return pageInputs;
+    });
   }
 
   render() {
-    const { client, title, pages } = this.state;
-    const disabled = (client && parseInt(pages, 10) > 0 && title) ? {} : { disabled: true };
+    const { clients, title, files, fileUploading } = this.state;
+    const disabled = (clients.length > 0 && files.length > 0 && title) ? {} : { disabled: true };
 
     return(
       <Modal
@@ -61,33 +101,38 @@ class ProjectModal extends Component {
           <Form onSubmit={this.handleSubmit}>
             <Modal.Description>
                 <Header>Project Title</Header>
-                <Input 
+                <Input
                   required
                   placeholder='Project Title'
                   autoFocus
-                  id='title' 
+                  fluid
+                  id='title'
                   value={this.state.projectValue}
                   onChange={this.handleChange}
                 />
-                <Header>Number Of Pages</Header>
-                <Input 
-                  required
-                  placeholder='Number Of Pages'
-                  type='number'
-                  id='pages' 
-                  value={this.state.pages}
-                  onChange={this.handleChange}
-                />
-                { this.pageUploads() }
                 <Header>Client Name</Header>
                 <Dropdown
                   placeholder='Select A Client'
                   fluid
+                  multiple
                   selection
                   search
                   options={this.clientOptions()}
                   onChange={(e, data) => this.selectClient(data.value) }
                 />
+                <Divider horizontal>Media Upload</Divider>
+                { fileUploading ?
+                  <Dimmer active>
+                    <Loader>Processing Upload. Please Wait...</Loader>
+                  </Dimmer> :
+                  <MediaInput
+                    index={0}
+                    addMediaInput={this.addMediaInput}
+                    removeMediaInput={this.removeMediaInput}
+                    updateMediaFile={this.updateMediaFile}
+                    files={files}
+                  />
+                }
             </Modal.Description>
             <Divider hidden />
             <Segment basic textAlign='center'>
@@ -111,4 +156,4 @@ const mapStateToProps = (state) => {
   return { clients: state.clients };
 }
 
-export default connect(mapStateToProps)(ProjectModal);
+export default withRouter(connect(mapStateToProps)(ProjectModal));

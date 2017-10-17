@@ -15,6 +15,8 @@ Rails.application.routes.draw do
     post 'images/company_image', to: 'images#add_company_image'
     put '/team/:user_id', to: 'teams#update'
     delete '/team/:user_id', to: 'teams#destroy'
+    post 'images/project_images', to: 'images#add_project_images'
+    resources :projects, except: [:new, :edit]
   end
 
   post '/invitation/send', to: 'invitations#invite'

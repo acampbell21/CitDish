@@ -4,7 +4,7 @@ import { setHeaders } from './headers';
 
 const login = (user, headers) => (
   { type: 'LOGIN', user, headers }
-) 
+)
 
 export const setOauth = (oauthResult, getCrmClients = false) => {
   return(dispatch) => {
@@ -75,10 +75,10 @@ export const setLinkedInProfilePic = () => {
       .then( res => {
         const { data: user, headers } = res;
         dispatch(login(user, headers));
-        dispatch(setFlash('Now Using LinkedIn Profile Pic!', 'green'));
+        dispatch(setFlash('Now Using LinkedIn Profile Picture!', 'green'));
       })
       .catch(res => {
-        dispatch(setFlash('Error Using LinkedIn Profile Pic. Try Again.', 'red'));
+        dispatch(setFlash('Error Using LinkedIn Profile Picture. Try Again.', 'red'));
         dispatch(setHeaders(res.headers));
       })
   }

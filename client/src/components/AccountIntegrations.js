@@ -9,10 +9,10 @@ import LinkedInLogo from '../images/linkedin-round-logo.png';
 import SalesforceLogo from '../images/salesforce-logo.png';
 import SalesforceOAuth from './SalesforceOAuth';
 
-
-export class AccountSocialMedia extends Component {
+export class AccountIntegrations extends Component {
   handleSocialLoginFailure = () => {
     this.props.dispatch(setFlash('You did not authorize the app. Try again!', 'red'));
+    window.location.reload();
   }
 
   disconnectSocialOauth = () => {
@@ -30,7 +30,7 @@ export class AccountSocialMedia extends Component {
   }
 
   render() {
-    const { social_oauth, crm_oauth } = this.props.user;
+    const { user: { social_oauth, crm_oauth }, dispatch } = this.props;
 
     return (
       <Grid.Column mobile={16} tablet={8} computer={4} style={{ margin: '0 auto' }}>
@@ -38,13 +38,13 @@ export class AccountSocialMedia extends Component {
           <Image src={SalesforceLogo} centered style={styles.salesforceLogo} alt='Salesforce Logo' />
           { crm_oauth ?
             <Segment basic>
-              <Button 
-                color='red' 
+              <Button
+                color='red'
                 onClick={this.disconnectCrmOauth}
                 style={{ marginTop: '10px' }}
               >
                 Disconnect Salesforce
-              </Button> 
+              </Button>
             </Segment> :
             <SalesforceOAuth />
           }
@@ -53,20 +53,20 @@ export class AccountSocialMedia extends Component {
           <Image src={LinkedInLogo} centered style={styles.linkedInLogo} alt='LinkedIn Logo' />
           { social_oauth ?
             <Segment basic>
-              <Button 
-                color='red' 
+              <Button
+                color='red'
                 onClick={this.disconnectSocialOauth}
                 style={{ marginTop: '10px' }}
               >
                 Disconnect LinkedIn
-              </Button> 
+              </Button>
               <Divider hidden />
               <Button size='tiny' onClick={this.setLinkedInProfilePic}>Use LinkedIn Picture</Button>
             </Segment> :
             <SocialLoginButton
               provider='linkedin'
               appId='86evrw56wtl8u8'
-              onLoginSuccess={this.handleSocialLogin}
+              onLoginSuccess={(response) => dispatch(setOauth(response))}
               onLoginFailure={this.handleSocialLoginFailure}
             >
               <Button>Login To LinkedIn</Button>
@@ -93,4 +93,4 @@ const mapStateToProps = (state) => {
   return { user: state.user };
 }
 
-export default connect(mapStateToProps)(AccountSocialMedia);
+export default connect(mapStateToProps)(AccountIntegrations);

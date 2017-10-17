@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171011201439) do
+ActiveRecord::Schema.define(version: 20171019212957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,12 +45,16 @@ ActiveRecord::Schema.define(version: 20171011201439) do
     t.string "name", null: false
     t.string "email"
     t.string "phone"
-    t.string "photo", default: ""
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "uid", null: false
     t.boolean "from_crm", default: true
+    t.string "mobile_phone"
+    t.jsonb "mailing_address"
+    t.string "home_phone"
+    t.string "title"
+    t.jsonb "notes"
     t.index ["user_id"], name: "index_clients_on_user_id"
   end
 
@@ -70,6 +74,7 @@ ActiveRecord::Schema.define(version: 20171011201439) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "clients"
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 

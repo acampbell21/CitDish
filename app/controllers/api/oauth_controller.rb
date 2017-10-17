@@ -17,12 +17,16 @@ class Api::OauthController < ApplicationController
     client = Restforce.new(oauth_token: current_user.crm_oauth['accessToken'],
                            instance_url: current_user.crm_oauth['instanceURL'],
                            api_version: '38.0')
-    result = client.query('select id, name from contact')
-    
+    sql = "SELECT Id, Name, Description, Email, HomePhone,
+           MailingAddress, MobilePhone, Phone, Title,
+           (select Id, Title, Body FROM Notes)
+           FROM Contact"
+    result = client.query(sql)
+
     if result.any?
       current_user.clients.where(from_crm: true).destroy_all
       # TODO: I think we need to paginate the results so we get all clients
-      result.each { |client| current_user.clients.create(uid: client['Id'], name: client['Name']) }
+      result.each { |client| current_user.create_crm_client(client) }
     end
 
     render json: current_user.clients

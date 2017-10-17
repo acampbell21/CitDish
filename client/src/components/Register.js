@@ -10,7 +10,6 @@ import { Header,
 import { connect } from 'react-redux';
 import { registerUser } from '../actions/auth';
 import { Link } from 'react-router-dom';
-import Flash from './Flash';
 import cdLogo from '../images/cd-logo.png';
 import bgPattern from '../images/bg-pattern.jpg'
 
@@ -56,8 +55,8 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
   },
-  registerBox: { 
-    border: '1px solid black', 
+  registerBox: {
+    border: '1px solid black',
     padding: '0',
     backgroundColor: 'white',
   },
@@ -83,7 +82,6 @@ class Register extends Component {
     return (
       <Grid style={styles.grid}>
         <Segment basic style={styles.registerBox}>
-          <Flash />
           <div style={styles.row}>
             <Grid.Row>
               <div style={styles.logo}>
