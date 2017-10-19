@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { 
   Container,
-  Header, 
-  Segment, 
-  Button, 
-  Icon,
+  Header,
   Grid, 
-  Divider,
-  Image,
-  Modal,
-  Input,
-  Form,
+  Segment,
+  Icon,
+  Button,
 } from 'semantic-ui-react';
+import { setFlash } from '../actions/flash';
+import { setHeaders } from '../actions/headers';
 import axios from 'axios';
-import { connect } from 'react-redux';
+import EditUserModal from './EditUserModal';
+import InviteUserModal from './InviteUserModal';
 
 const styles = {
   users: {
@@ -36,140 +35,134 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '600px',
+  },
+  grid: {
+    paddingTop: '110px', 
+    height: '90vh',
+    overflow: 'scroll',
+    paddingBottom: '11px',
   },
   modal: {
     width: '500px',
     justifyContent: 'center',
   },
-  dropzone: {
-      marginBottom: '10px', 
-      border: 'dashed 1px black',
-      height: '55px',
-      textAlign: 'center'
-  }
-  
+  submit: {
+    backgroundColor: 'rgb(0, 145, 210)',
+    color: 'white',   
+  },
 }
 
 class Team extends Component {
-  state = { name: '', email: '', phone: '', users: [] }
+  state = { 
+    name: '', 
+    email: '', 
+    phone: '', 
+    role: '', 
+    users: [],
+    editUser: null,
+    newInvite: false,
+  }
   
   componentDidMount() {
+    const { dispatch } = this.props;    
     axios.get('/api/team')
     .then(res => {
       this.setState({ users: res.data })
-    });
+      dispatch(setHeaders(res.headers))
+    })
+    .catch(res => {
+      dispatch(setFlash('Error fetching users', 'red'))
+      dispatch(setHeaders(res.headers))
+    })
   }
 
-  userDestroy() {
-    const { name, email, phone } = this.state;
-    axios.delete('/api/team', {user: { name, email, phone } }) 
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const { name, email, phone } = this.state;
-    axios.post('/invitation/send', {user: { name, email, phone } })
-  }
-
-  handleEdit = (e) => {
-    const { name, phone } = this.state;
-    axios.patch('/api/team', {user: { name, phone } })
-  }
-
+  userDestroy = (id) => {
+    const { dispatch } = this.props;    
+    axios.delete(`/api/team/${id}`)
+    .then(res => {
+      this.setState({ users: res.data })
+      dispatch(setHeaders(res.headers))
+    })
+    .catch(res => {
+      dispatch(setFlash('Error deleting user', 'red'))
+      dispatch(setHeaders(res.headers))
+    })
+  }  
+  
   handleChange = (e) => {
     const { id, value } = e.target
     this.setState({ [id]: value })
   }
   
-  addUserButton() {
-    return(
-      <Button style={styles.submit}>Invite User</Button>
+  destroyUserButton(id) {
+    if (this.props.user.id !== id)
+      return( 
+        <Icon button color='red' name='remove circle' onClick={() => this.userDestroy(id)} />      
     )
   }
 
-  editUserButton() {
-    return(
-      <Icon button color='yellow' name='write' />
-    )
+  setEditUser = (editUser) => {
+    this.setState({ editUser });
   }
   
-  destroyUserButton() {
-    return(
-      // <Icon button color='red' name='remove circle' onClick={this.handleDestroy()} />      
-      <Button onClick={this.userDestroy()}>Delete</Button>
-    )
+  setUsers = (user) => {
+    const users = this.state.users.map(u => {
+      if(user.id === u.id)
+        return user
+      return u
+    })
+    this.setState({users, editUser: null})
   }
 
-  editUserModal = () => {
-    const { name, email, phone, user } = this.state;
-    return(
-      <Modal style={styles.modal} closeIcon={<Button floated='right' compact tiny>X</Button>} trigger={this.editUserButton()} >
-        <Modal.Header>EDIT USER</Modal.Header>
-        <Modal.Content>
-          <Form onSubmit={this.handleEdit}>
-            <Form.Field>
-              <label>Name</label>
-              <input value={name} id='name' onChange={this.handleChange} autoFocus placeholder={name} />
-            </Form.Field>
-            <Form.Field>
-              <label>Phone</label>
-              <input value={phone} id='phone' onChange={this.handleChange} placeholder='Phone' />
-            </Form.Field>
-            <Button style={styles.submit}>
-              Submit
-            </Button>
-          </Form>
-        </Modal.Content>
-      </Modal>
-    )
+  addUser = (user) => {
+    this.setState({ users: [...this.state.users, user], newInvite: false });
   }
-
-  displayUsers() {
-    const { users } = this.state
-    return this.state.users.map(user => 
-      <Segment style={styles.users}>
-        <span>{user.name}</span>
-        {this.destroyUserButton()}
-        <Icon button color='green' name='mail' />
-        {this.editUserModal()}
-      </Segment>
-    )
+  
+  displayUsers = () => {
+    return this.state.users.map(user => {
+      const { name, phone, id, role } = user;
+      return(
+        <Segment style={styles.users}>
+        <span>{name}</span>
+          { role === 'admin' &&  <Icon tiny name="legal" /> }
+          {this.destroyUserButton(id)}
+          <Icon button color='green' name='mail' />
+          <Icon button color='yellow' name='write' onClick={() => this.setEditUser(user)}/>
+          <br />
+        </Segment>
+      )
+    });
   }
 
   render() {
-    const { name, email, phone } = this.state;
+    const { name, email, phone, role, editUser, newInvite } = this.state;
     return(
-      <Container style={styles.container}>
-        <Header textAlign="right" as="h2">
-          Team
-        </Header>
-        <span>{ this.displayUsers() }</span>
-        <br />
-        <Modal style={styles.modal} closeIcon={<Button floated='right' compact tiny>X</Button>} trigger={this.addUserButton()}>
-          <Modal.Header>ADD USER</Modal.Header>
-          <Modal.Content onOpen>
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Field>
-                <label>Name</label>
-                <input value={name} id='name' onChange={this.handleChange} autoFocus placeholder='Name' />
-              </Form.Field>
-              <Form.Field>
-                <label>Email</label>
-                <input value={email} id='email' onChange={this.handleChange} placeholder='Email' />
-              </Form.Field>
-              <Form.Field>
-                <label>Phone</label>
-                <input value={phone} id='phone' onChange={this.handleChange} placeholder='Phone' />
-              </Form.Field>
-              <Button handleSubmit style={styles.submit}>
-                Send
-              </Button>
-            </Form>
-          </Modal.Content>
-        </Modal>
-        {/* {this.editUserModal()} */}
-      </Container>
+      <Grid verticalAlign='middle' centered padded="vertically" style={styles.grid}>
+        <Grid.Column mobile={16} tablet={8} computer={4}>
+          <Container style={styles.container}>
+            <Header textAlign="center" as="h2">
+              Team
+            </Header>
+            <span>{ this.displayUsers() }</span>
+            <br />
+            <InviteUserModal 
+              addUser={this.addUser}
+              newInvite={newInvite}
+            />
+            <EditUserModal 
+              editUser={editUser}  
+              setEditUser={this.setEditUser} 
+              setUsers={this.setUsers}
+            />
+            <Button 
+              onClick={() => this.setState({ newInvite: true })}
+              style={styles.submit}
+            >
+              Invite User
+            </Button>
+          </Container>
+        </Grid.Column>
+      </Grid>
     )
   }
 }

@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     get 'clients', to: 'clients#index'
     post 'images/user_image', to: 'images#add_user_image'
     post 'images/company_image', to: 'images#add_company_image'
+    put '/team/:user_id', to: 'teams#update'
+    delete '/team/:user_id', to: 'teams#destroy'
   end
 
   post '/invitation/send', to: 'invitations#invite'

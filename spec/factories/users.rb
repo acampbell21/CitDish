@@ -42,9 +42,13 @@
 #
 
 FactoryGirl.define do
+  sequence :email do |n|
+    "test#{n}@test.com"
+  end
+
   factory :user do
     name "Test Testerson"
-    email "test@test.com"
+    email
     phone "801-888-8888"
     role "user"
     image "https://sing.stanford.edu/site/images/missing.png"
