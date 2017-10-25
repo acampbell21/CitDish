@@ -52,7 +52,17 @@ const PulseButton = styled.span`
 
 class Landing extends Component {
   noTopBarPaths = [ '/', '/portfolio' ];
-  state = { navVisible: this.noTopBarPaths.includes(this.props.location.pathname) ? true : false };
+  state = { navVisible: false };
+
+  componentDidMount() {
+    const navVisible = this.noTopBarPaths.includes(this.props.location.pathname);
+    this.setNavVisible(null, navVisible)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const navVisible = this.noTopBarPaths.includes(nextProps.location.pathname);
+    this.setNavVisible(null, navVisible)
+  }
 
   setNavVisible = (e, visible = false) => {
     this.setState({ navVisible: visible });

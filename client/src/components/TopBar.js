@@ -12,7 +12,7 @@ class TopBar extends Component {
       'team': 'users',
       'record': 'video camera',
     };
-    
+
     const pathSplit = this.props.path.split('/');
     return paths[pathSplit[pathSplit.length - 1]]
   }
@@ -55,6 +55,7 @@ const styles = {
     height: '100px',
     backgroundColor: 'rgb(0, 145, 210)',
     marginTop: '0',
+    marginBottom: '100px',
   },
   topBarSegment: {
     borderRadius: '999px',

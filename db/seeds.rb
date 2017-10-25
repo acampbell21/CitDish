@@ -1,24 +1,18 @@
-test_user = User.find_by(email: 'test@test.com')
+test_user = User.find_by(email: 'user@test.com')
 admin_user = User.find_by(email: 'admin@test.com')
 team = Team.first
-unless team
-  team = Team.create
-end
+team = Team.create unless team
 
 unless test_user
-  team.users.create(name: 'Test Testerson', phone: '801-888-8888',
-              email: 'test@test.com', password: 'password',
-              image: 'https://sing.stanford.edu/site/images/missing.png',
-              company_name: 'Default Company Name',
-              company_image: 'http://i.stack.imgur.com/P1BHs.png')
+  team.users.create(name: 'Test User', phone: '801-888-8888',
+              email: 'user@test.com', password: 'password',
+              company_name: 'Default Company Name')
   puts 'Test User Seeded'
 end
 
 unless admin_user
   team.users.create(name: 'Admin User', phone: '801-999-9999',
               email: 'admin@test.com', password: 'password', role: 'admin',
-              image: 'https://sing.stanford.edu/site/images/missing.png',
-              company_name: 'Default Company Name',
-              company_image: 'http://i.stack.imgur.com/P1BHs.png')
+              company_name: 'Default Company Name')
   puts 'Admin Seeded'
 end

@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import PaymentPlanModal from './PaymentPlanModal';
 import PlanModal from './PlanModal';
-import { Grid, 
-         Header, 
-         Modal, 
-         Button, 
-         Segment, 
-         Icon, 
-         Checkbox, 
-         Divider, 
-         Container 
-        } from 'semantic-ui-react'
+import { Link } from 'react-router-dom';
+import {
+  Grid,
+  Header,
+  Modal,
+  Button,
+  Segment,
+  Icon,
+  Checkbox,
+  Divider,
+  Container
+} from 'semantic-ui-react'
 
 const styles = {
   blueBoldText: {
@@ -21,7 +23,6 @@ const styles = {
   },
   planGrid: {
     display: 'flex',
-    paddingTop: '100px',
     justifyContent: 'center',
   },
   margin: {
@@ -30,55 +31,57 @@ const styles = {
   upperCase: {
     textTransform: 'uppercase',
   },
-
-
 }
+
 class Payment extends Component {
-  state = {}
+  state = { active: true };
 
   render() {
-    const { active } = this.state
+    const { active } = this.state;
+
     return(
       <div>
-        <Grid 
-          verticalAlign='middle' 
-          textAlign='center' 
-          columns={12} 
-          padded="vertically" 
-          style={styles.planGrid}>
+        <Grid
+          verticalAlign='middle'
+          textAlign='center'
+          columns={12}
+          padded="vertically">
           <Grid.Row>
-            <Grid.Column 
-              mobile={16} tablet={8} computer={4} 
+            <Grid.Column
+              mobile={16} tablet={8} computer={4}
               style={styles.margin}
             >
               <Header as='h2' style={styles.upperCase}>USERS</Header>
-              <Segment style={styles.blueBoldText} basic>
-                1
-              </Segment>
-              <Button 
-                basic color='blue' 
+              <Segment style={styles.blueBoldText} basic>1</Segment>
+
+              <Button
+                as={Link}
+                to='/team'
+                basic color='blue'
                 size='huge'
               >
                Manage Users
-              </Button>
+             </Button>
             </Grid.Column>
-            <Grid.Column 
-              mobile={16} tablet={8} computer={4} 
+            <Grid.Column
+              mobile={16} tablet={8} computer={4}
               style={styles.margin}
             >
               <Header as='h2' style={styles.upperCase}>MONTHLY PAYMENT</Header>
               <Segment style={styles.blueBoldText} basic>
                 $50
               </Segment>
-              <Button 
-                basic color='blue' 
+              <Button
+                as={Link}
+                to='/team'
+                basic color='blue'
                 size='huge'
               >
-                Monthly Payment
-              </Button>
+               Add Users
+             </Button>
             </Grid.Column>
-            <Grid.Column 
-              mobile={16} tablet={8} computer={4} 
+            <Grid.Column
+              mobile={16} tablet={8} computer={4}
               style={styles.margin}
             >
               <Header as='h2' style={styles.upperCase}>CURRENT PLAN</Header>
@@ -90,7 +93,7 @@ class Payment extends Component {
             </Grid.Row>
           </Grid>
           <PaymentPlanModal />
-      </div>      
+      </div>
     )
   }
 }

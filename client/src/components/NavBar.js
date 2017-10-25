@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { handleLogout } from '../actions/auth';
 import cdLogo from '../images/cd-logo.png';
 import Flash from './Flash';
+import MissingAvatar from '../images/missing-avatar.png';
 
 const styles = {
   logo: {
@@ -81,6 +82,7 @@ class NavBar extends Component {
 
   render() {
     const { dispatch, history, user, children, visible, setNavVisible } = this.props;
+    const userImage = user.image ? user.image : MissingAvatar;
 
     return(
       <Sidebar.Pushable as={Segment} basic style={{ margin: 0 }}>
@@ -94,9 +96,9 @@ class NavBar extends Component {
             <Grid>
               <Grid.Row>
                 <Grid.Column width={8}>
-                  <Link to='/account'>
+                  <Link onClick={() => setNavVisible(false)} to='/account'>
                     <Image
-                      src={user.image}
+                      src={userImage}
                       alt='User Profile Image'
                       fluid shape='circular'
                   />

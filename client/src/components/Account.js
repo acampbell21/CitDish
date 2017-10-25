@@ -5,7 +5,7 @@ import AccountDetails from './AccountDetails';
 import AccountImages from './AccountImages';
 
 const Account = () => (
-  <Grid verticalAlign='middle' columns={12} padded="vertically" style={{ paddingTop: '100px' }}>
+  <Grid verticalAlign='middle' columns={12} padded="vertically">
     <Grid.Row>
       <AccountImages />
       <AccountDetails />

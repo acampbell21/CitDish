@@ -23,6 +23,8 @@ gem 'opentok', '~> 2.5.0'
 gem 'restforce', '~> 2.5.3'
 # Uploading files to the Cloud
 gem 'cloudinary'
+# Braintree - Payments
+gem 'braintree-rails'
 
 group :development, :test do
   # Call 'pry' anywhere in the code to stop execution and get a debugger console

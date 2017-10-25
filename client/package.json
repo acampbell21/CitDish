@@ -13,6 +13,7 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
     "react-social-login": "^3.2.1",
+    "react-webcam-capture": "^1.0.5",
     "redux": "^3.7.2",
     "redux-devise-axios": "^0.0.4",
     "redux-thunk": "^2.2.0",

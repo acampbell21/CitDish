@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { 
+import {
   Container,
   Header,
-  Grid, 
+  Grid,
   Segment,
   Icon,
   Button,
@@ -24,11 +24,11 @@ const styles = {
     backgroundColor: 'rgb(0, 145, 210)',
     color: 'white',
     fontSize: '18px',
-    width: '400px', 
+    width: '400px',
   },
   submit: {
     backgroundColor: 'rgb(0, 145, 210)',
-    color: 'white',   
+    color: 'white',
   },
   container: {
     display: 'flex',
@@ -36,35 +36,30 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  grid: {
-    paddingTop: '110px', 
-    height: '90vh',
-    overflow: 'scroll',
-    paddingBottom: '11px',
-  },
   modal: {
     width: '500px',
     justifyContent: 'center',
   },
   submit: {
     backgroundColor: 'rgb(0, 145, 210)',
-    color: 'white',   
+    marginTop: '10px',
+    color: 'white',
   },
 }
 
 class Team extends Component {
-  state = { 
-    name: '', 
-    email: '', 
-    phone: '', 
-    role: '', 
+  state = {
+    name: '',
+    email: '',
+    phone: '',
+    role: '',
     users: [],
     editUser: null,
     newInvite: false,
   }
-  
+
   componentDidMount() {
-    const { dispatch } = this.props;    
+    const { dispatch } = this.props;
     axios.get('/api/team')
     .then(res => {
       this.setState({ users: res.data })
@@ -77,7 +72,7 @@ class Team extends Component {
   }
 
   userDestroy = (id) => {
-    const { dispatch } = this.props;    
+    const { dispatch } = this.props;
     axios.delete(`/api/team/${id}`)
     .then(res => {
       this.setState({ users: res.data })
@@ -87,24 +82,24 @@ class Team extends Component {
       dispatch(setFlash('Error deleting user', 'red'))
       dispatch(setHeaders(res.headers))
     })
-  }  
-  
+  }
+
   handleChange = (e) => {
     const { id, value } = e.target
     this.setState({ [id]: value })
   }
-  
+
   destroyUserButton(id) {
     if (this.props.user.id !== id)
-      return( 
-        <Icon button color='red' name='remove circle' onClick={() => this.userDestroy(id)} />      
+      return(
+        <Icon button color='red' name='remove circle' onClick={() => this.userDestroy(id)} />
     )
   }
 
   setEditUser = (editUser) => {
     this.setState({ editUser });
   }
-  
+
   setUsers = (user) => {
     const users = this.state.users.map(u => {
       if(user.id === u.id)
@@ -117,7 +112,11 @@ class Team extends Component {
   addUser = (user) => {
     this.setState({ users: [...this.state.users, user], newInvite: false });
   }
-  
+
+  setNewInvite = (newInvite) => {
+    this.setState({ newInvite });
+  }
+
   displayUsers = () => {
     return this.state.users.map(user => {
       const { name, phone, id, role } = user;
@@ -137,32 +136,34 @@ class Team extends Component {
   render() {
     const { name, email, phone, role, editUser, newInvite } = this.state;
     return(
-      <Grid verticalAlign='middle' centered padded="vertically" style={styles.grid}>
-        <Grid.Column mobile={16} tablet={8} computer={4}>
-          <Container style={styles.container}>
-            <Header textAlign="center" as="h2">
-              Team
-            </Header>
-            <span>{ this.displayUsers() }</span>
-            <br />
-            <InviteUserModal 
-              addUser={this.addUser}
-              newInvite={newInvite}
-            />
-            <EditUserModal 
-              editUser={editUser}  
-              setEditUser={this.setEditUser} 
-              setUsers={this.setUsers}
-            />
-            <Button 
-              onClick={() => this.setState({ newInvite: true })}
-              style={styles.submit}
-            >
-              Invite User
-            </Button>
-          </Container>
-        </Grid.Column>
-      </Grid>
+      <Segment basic>
+        <Header textAlign="center" as="h2">
+          Team
+        </Header>
+        <Grid verticalAlign='middle' centered padded="vertically">
+          <Grid.Column mobile={16} tablet={8} computer={4}>
+            <Container style={styles.container}>
+              <span>{ this.displayUsers() }</span>
+              <Button
+                onClick={() => this.setNewInvite(true) }
+                style={styles.submit}
+              >
+                Invite User
+              </Button>
+            </Container>
+          </Grid.Column>
+        </Grid>
+        <InviteUserModal
+          setNewInvite={this.setNewInvite}
+          addUser={this.addUser}
+          newInvite={newInvite}
+        />
+        <EditUserModal
+          editUser={editUser}
+          setEditUser={this.setEditUser}
+          setUsers={this.setUsers}
+        />
+      </Segment>
     )
   }
 }

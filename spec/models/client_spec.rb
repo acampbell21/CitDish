@@ -26,7 +26,6 @@ RSpec.describe Client, type: :model do
   end
 
   describe 'associations' do
-    it { should have_one(:address) }
     it { should belong_to(:user) }
   end
 end
