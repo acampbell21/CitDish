@@ -18,3 +18,4 @@ coverage/
 .env
 node_modules
 .ds_store
+.portfolio.js.swp

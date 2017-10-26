@@ -19,7 +19,9 @@ Rails.application.routes.draw do
     put '/team/:user_id', to: 'teams#update'
     delete '/team/:user_id', to: 'teams#destroy'
     post 'images/project_images', to: 'images#add_project_images'
-    resources :projects, except: [:new, :edit]
+    delete '/user/projects', to: 'projects#destroy'
+    put '/user/projects', to: 'projects#update'
+    resources :projects, except: [:new]
   end
 
   post '/invitation/send', to: 'invitations#invite'

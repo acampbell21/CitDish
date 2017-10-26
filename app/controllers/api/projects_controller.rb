@@ -1,6 +1,5 @@
 class Api::ProjectsController < ApplicationController
   before_action :set_project, except: [:index, :create]
-
   def index
     @projects = current_user.projects
   end
@@ -25,7 +24,12 @@ class Api::ProjectsController < ApplicationController
   end
 
   def update
-    #TODO: implement this
+    if @project.update(project_params)
+      binding.pry
+      render json: @project
+    else
+      render json: @project.errors, status: :unprocessable_entity
+    end
   end
 
   def destroy
@@ -34,7 +38,7 @@ class Api::ProjectsController < ApplicationController
 
   private
     def project_params
-      params.require(:project).permit(:title, :active, clients: [])
+      params.require(:project).permit(:project, :title, :active, clients: [])
     end
 
     def set_project

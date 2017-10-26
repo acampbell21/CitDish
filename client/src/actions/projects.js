@@ -30,3 +30,33 @@ export const addProject = (clients, title, files, history) => {
     });
   }
 }
+
+export const deleteProject = (id) => {
+  return (dispatch) => {
+    axios.delete(`/api/projects/${id}`)
+      .then ( res => {
+	      const { data: headers } = res;      
+      	dispatch({ type: 'DELETE_PROJECT', id, headers }); 
+      })
+      .catch( res => {
+	      dispatch(setFlash('Error Deleting Project. Try Again,', 'red'));
+	      dispatch(setHeaders(res.headers));
+    });	
+  }
+}
+
+export const updateProject = (project, id) => {
+  debugger
+  return (dispatch) => {
+    debugger
+    axios.put(`/api/projects/${project}`, { project })
+      .then( res => {
+        const { data: projects, headers } = res;
+        dispatch({ type: 'UPDATE_PROJECT', project, projects, headers });
+      })
+      .catch( res => {
+        dispatch(setFlash('Error Updating Project. Try again,', 'red'));
+        dispatch(setHeaders(res.headers));
+      })
+  }
+}
