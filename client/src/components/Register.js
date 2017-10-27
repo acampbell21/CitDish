@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Header,
+import {
+  Header,
   Segment,
   Form,
   Button,

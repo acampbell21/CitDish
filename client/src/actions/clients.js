@@ -15,3 +15,16 @@ export const fetchClients = () => {
     });
   }
 }
+
+export const singleClient = (id, history) => {
+  return(dispatch) => {
+    axios.get(`/api/clients/${id}`)
+      .then( res => {
+        dispatch({ type: 'SINGLE_CLIENT', clients: res.data})
+        history.push(`/clients/${id}`)
+      })
+      .catch( res => {
+
+      })
+  }
+}

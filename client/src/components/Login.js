@@ -105,6 +105,7 @@ class Login extends Component {
                   <Form.Field>
                     <Input
                       required
+                      autofocus
                       id='email'
                       value={email}
                       placeholder='Your Email'
@@ -131,7 +132,8 @@ class Login extends Component {
                         // textAlign='center'
                         floated='left'
                         color='blue'
-                        as='h4'>New User?</Link>
+                        as='h4'>New User?
+                      </Link>
 
                       <Button
                         size='big'

@@ -15,6 +15,17 @@ ActiveRecord::Schema.define(version: 20171025034356) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "addresses", force: :cascade do |t|
+    t.string "street", null: false
+    t.string "city", null: false
+    t.string "state", null: false
+    t.string "zip", null: false
+    t.bigint "client_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_addresses_on_client_id"
+  end
+
   create_table "analytics", force: :cascade do |t|
     t.integer "times_viewed", default: 0
     t.boolean "opened"
@@ -121,6 +132,7 @@ ActiveRecord::Schema.define(version: 20171025034356) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "addresses", "clients"
   add_foreign_key "analytics", "projects"
   add_foreign_key "clients", "users"
   add_foreign_key "pages", "projects"

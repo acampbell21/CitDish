@@ -16,6 +16,7 @@ import OAuth from './OAuth';
 import bgPattern from '../images/bg-pattern.jpg'
 import Recorder from './Recorder';
 import styled, { keyframes } from 'styled-components';
+import Client from './Client';
 
 const pulse = keyframes`
   0% {
@@ -93,6 +94,7 @@ class Landing extends Component {
               <ProtectedRoute exact path='/payment' component={Payment} />
               <ProtectedRoute exact path='/team' component={Team} />
               <ProtectedRoute exact path='/clients' component={Clients} />
+              <ProtectedRoute exact path='/clients/:id' component={Client} />
               <ProtectedRoute exact path='/tutorial' component={Tutorial} />
               <ProtectedRoute exact path='/oauth' component={OAuth} />
 
